@@ -597,6 +597,298 @@ for (letra in 'a'..'e') {
 }
 ```
 
+# Prática: Implementando a Sequência de Fibonacci em Kotlin com Explicação Passo a Passo
+
+## Objetivo
+
+Nesta prática, vamos aplicar os conceitos básicos de Kotlin aprendidos até o momento—variáveis, tipos de dados, operadores e controle de fluxo—para implementar um programa que calcula e exibe os **N** primeiros termos da sequência de Fibonacci. Iremos construir o programa passo a passo, com explicações detalhadas de cada etapa.
+
+---
+
+## Enunciado do Problema
+
+Faça um programa que:
+
+- Leia um número inteiro **N** (onde **N** ≥ 2).
+- Calcule os **N** primeiros termos da sequência de Fibonacci.
+- Exiba os termos calculados.
+
+**Sequência de Fibonacci:**
+
+A sequência de Fibonacci é uma sequência numérica onde cada número é a soma dos dois anteriores, iniciando com 0 e 1. Os primeiros termos são:
+
+```
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...
+```
+
+---
+
+## Passo a Passo
+
+### Passo 1: Configuração do Ambiente
+
+Antes de começar, certifique-se de ter um ambiente de desenvolvimento Kotlin configurado. Você pode usar:
+
+- **IntelliJ IDEA**: Uma IDE robusta com suporte nativo para Kotlin.
+- **Kotlin Playground**: Um ambiente online para testar código Kotlin (https://play.kotlinlang.org/).
+- **Command Line**: Instale o compilador Kotlin e use um editor de texto.
+
+### Passo 2: Criar o Arquivo Kotlin
+
+Crie um novo arquivo Kotlin chamado `Fibonacci.kt`.
+
+```kotlin
+// Fibonacci.kt
+
+fun main() {
+    // O código será escrito aqui
+}
+```
+
+### Passo 3: Importar Pacotes Necessários
+
+Para este programa, não precisamos importar nenhum pacote adicional, pois utilizaremos funções padrão da linguagem.
+
+### Passo 4: Declarar Variáveis Iniciais
+
+#### 4.1. Variável para Armazenar N
+
+Precisamos de uma variável para armazenar o número de termos que o usuário deseja calcular.
+
+```kotlin
+var N: Int? = null  // N é inicializado como null
+```
+
+#### 4.2. Variáveis para os Termos da Sequência
+
+Vamos usar duas variáveis para manter os termos anteriores durante o cálculo.
+
+```kotlin
+var anterior = 0  // Primeiro termo da sequência
+var atual = 1     // Segundo termo da sequência
+```
+
+#### 4.3. Lista para Armazenar a Sequência
+
+Utilizaremos uma lista mutável para armazenar os termos calculados.
+
+```kotlin
+val sequencia = mutableListOf<Int>(anterior, atual)  // Inicia a lista com 0 e 1
+```
+
+### Passo 5: Ler e Validar a Entrada do Usuário
+
+Usaremos um loop `do-while` para garantir que o usuário insira um valor válido para **N** (inteiro ≥ 2).
+
+```kotlin
+do {
+    print("Digite o valor de N (N ≥ 2): ")
+    val input = readLine()  // Lê a entrada do usuário como String
+    N = input?.toIntOrNull()  // Tenta converter para Int, ou null se não for possível
+
+    if (N == null || N < 2) {
+        println("Por favor, insira um número inteiro maior ou igual a 2.")
+        N = null  // Garante que o loop continuará se a entrada for inválida
+    }
+} while (N == null)  // Repete enquanto N for null (entrada inválida)
+```
+
+**Explicação:**
+
+- `readLine()`: Lê a entrada do usuário.
+- `toIntOrNull()`: Converte a string para `Int` ou retorna `null` se não for possível.
+- O loop continua até que um valor válido seja fornecido.
+
+### Passo 6: Calcular os Termos da Sequência
+
+Usaremos um loop `for` para calcular os termos restantes até atingir **N** termos.
+
+```kotlin
+for (i in 2 until N) {  // Começa em 2 porque já temos dois termos iniciais
+    val proximo = anterior + atual  // Calcula o próximo termo
+    sequencia.add(proximo)          // Adiciona o próximo termo à lista
+    anterior = atual                // Atualiza 'anterior' para o próximo cálculo
+    atual = proximo                 // Atualiza 'atual' para o próximo cálculo
+}
+```
+
+**Explicação:**
+
+- `2 until N`: Cria um intervalo que começa em 2 e vai até N-1.
+- Em cada iteração:
+  - Calcula o próximo termo.
+  - Adiciona o termo à lista.
+  - Atualiza as variáveis para o próximo ciclo.
+
+### Passo 7: Exibir os Resultados
+
+Após calcular os termos, exibimos a sequência para o usuário.
+
+```kotlin
+println("Os $N primeiros termos da sequência de Fibonacci são:")
+println(sequencia.joinToString(", "))
+```
+
+**Explicação:**
+
+- `joinToString(", ")`: Converte a lista em uma string com elementos separados por vírgulas.
+- `println()`: Exibe a mensagem e a sequência calculada.
+
+### Passo 8: Código Completo com Comentários
+
+Aqui está o código completo com todos os passos incorporados e explicações adicionais como comentários.
+
+```kotlin
+fun main() {
+    var N: Int? = null  // Declaração da variável N como nula inicialmente
+
+    // Passo 5: Ler e validar a entrada do usuário
+    do {
+        print("Digite o valor de N (N ≥ 2): ")
+        val input = readLine()       // Lê a entrada do usuário como String
+        N = input?.toIntOrNull()     // Tenta converter para Int, atribui null se falhar
+
+        // Verifica se N é inválido (null ou menor que 2)
+        if (N == null || N < 2) {
+            println("Por favor, insira um número inteiro maior ou igual a 2.")
+            N = null  // Garante que o loop continuará
+        }
+    } while (N == null)  // Repete enquanto N for null (entrada inválida)
+
+    // Passo 4: Declarar variáveis iniciais
+    var anterior = 0  // Primeiro termo da sequência
+    var atual = 1     // Segundo termo da sequência
+
+    // Cria uma lista mutável para armazenar os termos da sequência, iniciando com os dois primeiros
+    val sequencia = mutableListOf<Int>(anterior, atual)
+
+    // Passo 6: Calcular os termos da sequência
+    for (i in 2 until N) {  // Começa em 2 porque já temos dois termos iniciais
+        val proximo = anterior + atual  // Calcula o próximo termo somando os dois anteriores
+        sequencia.add(proximo)          // Adiciona o próximo termo à lista
+        anterior = atual                // Atualiza 'anterior' para o próximo cálculo
+        atual = proximo                 // Atualiza 'atual' para o próximo cálculo
+    }
+
+    // Passo 7: Exibir os resultados
+    println("Os $N primeiros termos da sequência de Fibonacci são:")
+    println(sequencia.joinToString(", "))  // Imprime a sequência separada por vírgulas
+}
+```
+
+---
+
+## Testando o Programa
+
+### Exemplo 1
+
+**Entrada:**
+
+```
+Digite o valor de N (N ≥ 2): 5
+```
+
+**Saída:**
+
+```
+Os 5 primeiros termos da sequência de Fibonacci são:
+0, 1, 1, 2, 3
+```
+
+### Exemplo 2
+
+**Entrada:**
+
+```
+Digite o valor de N (N ≥ 2): 10
+```
+
+**Saída:**
+
+```
+Os 10 primeiros termos da sequência de Fibonacci são:
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34
+```
+
+### Exemplo 3 (Entrada Inválida)
+
+**Entrada:**
+
+```
+Digite o valor de N (N ≥ 2): a
+Por favor, insira um número inteiro maior ou igual a 2.
+Digite o valor de N (N ≥ 2): 1
+Por favor, insira um número inteiro maior ou igual a 2.
+Digite o valor de N (N ≥ 2): 3
+```
+
+**Saída:**
+
+```
+Os 3 primeiros termos da sequência de Fibonacci são:
+0, 1, 1
+```
+
+---
+
+## Conceitos Aplicados
+
+- **Variáveis Mutáveis (`var`)**: Usadas para `N`, `anterior` e `atual`, que mudam durante a execução.
+- **Variáveis Imutáveis (`val`)**: Usadas para `input` e `sequencia` (a referência da lista é imutável, mas o conteúdo pode ser alterado).
+- **Tipos Nulificáveis (`Int?`)**: A variável `N` é do tipo `Int?` para permitir que seja `null` até receber um valor válido.
+- **Controle de Fluxo**:
+  - **Loop `do-while`**: Garante que o usuário insira um valor válido antes de prosseguir.
+  - **Condicional `if`**: Verifica se a entrada é válida.
+  - **Loop `for`**: Calcula os termos da sequência.
+- **Listas Mutáveis**: `mutableListOf<Int>()` cria uma lista que pode ser modificada (adicionar ou remover elementos).
+- **Interação com o Usuário**:
+  - **Entrada**: `readLine()` para ler dados do usuário.
+  - **Saída**: `print()` e `println()` para exibir mensagens.
+- **Conversão Segura**: `toIntOrNull()` evita exceções ao tentar converter a entrada do usuário para inteiro.
+- **Interpolação de Strings**: Uso de `$N` para inserir o valor da variável dentro da string.
+- **Funções de Listas**:
+  - `add()`: Adiciona um elemento à lista.
+  - `joinToString()`: Converte a lista em uma string, com um separador definido.
+
+---
+
+## Desafios Extras
+
+1. **Modificar o Programa para Calcular Até um Valor Máximo**
+
+   Em vez de solicitar o número de termos, peça ao usuário um valor máximo e calcule os termos da sequência de Fibonacci menores ou iguais a esse valor.
+
+2. **Implementar a Sequência Usando Recursão**
+
+   Embora não seja eficiente para números grandes, tente implementar a sequência de Fibonacci usando uma função recursiva.
+
+3. **Exibir Índices dos Termos**
+
+   Modifique o programa para exibir o índice de cada termo junto com seu valor, por exemplo:
+
+   ```
+   F(0) = 0
+   F(1) = 1
+   F(2) = 1
+   ```
+
+---
+
+## Conclusão
+
+Nesta prática, implementamos um programa completo em Kotlin para calcular e exibir os **N** primeiros termos da sequência de Fibonacci. Através deste exercício, aplicamos conceitos fundamentais da linguagem, incluindo:
+
+- Declaração e uso de variáveis.
+- Tipos de dados e conversão segura.
+- Estruturas de controle de fluxo (loops e condicionais).
+- Manipulação de listas.
+- Interação com o usuário.
+- Boas práticas de programação (comentários e legibilidade do código).
+
+Recomenda-se experimentar modificações no código, testar com diferentes entradas e resolver os desafios propostos para consolidar o aprendizado.
+
+**Bons estudos e boa programação!**
+
 ---
 
 ## 5. Conclusão
