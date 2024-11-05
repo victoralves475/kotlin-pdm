@@ -184,7 +184,6 @@ val numeroFloat: Float = 3.14f
 
 - **Tamanho:** 64 bits
 - **Precisão:** Aproximadamente 15-16 dígitos decimais
-- **Sufixo:** Opcional (`d` ou `D`)
 
 **Exemplo:**
 
